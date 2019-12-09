@@ -51,34 +51,36 @@ const runOpCode = (instIndex, diagProg, arrayInputInst, logOutputsYN = true, rel
     return { success: false, jumpToIndex: jumpToIndex, output: output, relativeBase: relativeBase };
   } else {
     const auxArg1 = diagProg[instIndex + 1];
-    const arg1 =
-      diagProg[undefinedToZero(calcIndexWithParamMode(modeFirstParam, auxArg1, instIndex + 1, relativeBase, diagProg))];
+    const indexArg1 = undefinedToZero(
+      calcIndexWithParamMode(modeFirstParam, auxArg1, instIndex + 1, relativeBase, diagProg)
+    );
+    const arg1 = diagProg[indexArg1];
     const auxArg2 = diagProg[instIndex + 2];
     const arg2 =
       diagProg[
         undefinedToZero(calcIndexWithParamMode(modeSecondParam, auxArg2, instIndex + 2, relativeBase, diagProg))
       ];
-    const auxArg3 = diagProg[instIndex + 3];
-    const arg3 = undefinedToZero(
-      calcIndexWithParamMode(modeThirdParam, auxArg3, instIndex + 3, relativeBase, diagProg)
+    const auxindexArg3 = diagProg[instIndex + 3];
+    const indexArg3 = undefinedToZero(
+      calcIndexWithParamMode(modeThirdParam, auxindexArg3, instIndex + 3, relativeBase, diagProg)
     );
 
     if (opCode === '01' || opCode === '02' || opCode === '03' || opCode === '07' || opCode === '08') {
-      if (arg3 < 0) {
-        //console.log('arg3:' + arg3);
+      if (indexArg3 < 0) {
+        //console.log('indexArg3:' + indexArg3);
         return { success: false, jumpToIndex: null, output: null, relativeBase: relativeBase };
       }
     }
 
     switch (opCode) {
       case '01':
-        diagProg[arg3] = arg1 + arg2;
+        diagProg[indexArg3] = arg1 + arg2;
         break;
       case '02':
-        diagProg[arg3] = arg1 * arg2;
+        diagProg[indexArg3] = arg1 * arg2;
         break;
       case '03':
-        diagProg[arg3] = arrayInputInst[0];
+        diagProg[indexArg1] = arrayInputInst[0];
         arrayInputInst.length > 1 && arrayInputInst.shift();
         break;
       case '04':
@@ -92,10 +94,10 @@ const runOpCode = (instIndex, diagProg, arrayInputInst, logOutputsYN = true, rel
         jumpToIndex = arg1 === 0 ? arg2 : null;
         break;
       case '07':
-        diagProg[arg3] = arg1 < arg2 ? 1 : 0;
+        diagProg[indexArg3] = arg1 < arg2 ? 1 : 0;
         break;
       case '08':
-        diagProg[arg3] = arg1 === arg2 ? 1 : 0;
+        diagProg[indexArg3] = arg1 === arg2 ? 1 : 0;
         break;
       case '09':
         relativeBase += arg1;
