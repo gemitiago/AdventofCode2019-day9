@@ -46,7 +46,6 @@ const runOpCode = (instIndex, diagProg, arrayInputInst, logOutputsYN = true, rel
 
   let jumpToIndex = null;
   let output = null;
-  //let isInvalidIndex = false;
 
   if (opCode === '99') {
     return { success: false, jumpToIndex: jumpToIndex, output: output, relativeBase: relativeBase };
@@ -66,7 +65,7 @@ const runOpCode = (instIndex, diagProg, arrayInputInst, logOutputsYN = true, rel
 
     if (opCode === '01' || opCode === '02' || opCode === '03' || opCode === '07' || opCode === '08') {
       if (arg3 < 0) {
-        console.log('saiu pq arg3 era:' + arg3);
+        //console.log('arg3:' + arg3);
         return { success: false, jumpToIndex: null, output: null, relativeBase: relativeBase };
       }
     }
@@ -107,8 +106,7 @@ const runOpCode = (instIndex, diagProg, arrayInputInst, logOutputsYN = true, rel
   }
 
   if (jumpToIndex < 0) {
-    console.log('saiu pq jumpToIndex era:' + jumpToIndex);
-    return { success: false, jumpToIndex: null, output: null, relativeBase: relativeBase };
+    return { success: false, jumpToIndex: jumpToIndex, output: null, relativeBase: relativeBase };
   } else {
     return { success: true, jumpToIndex: jumpToIndex, output: output, relativeBase: relativeBase };
   }
